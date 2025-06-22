@@ -1,12 +1,11 @@
-﻿using ELECTRICAL_LEARNING.REPOSITORIES.Abstraction;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELECTRICAL_LEARNING.REPOSITORIES.Repository
+namespace ElectricalLearning.Repositories.Abstraction
 {
     public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> where TEntity : Entity<TKey>
     {

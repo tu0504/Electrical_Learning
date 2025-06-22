@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELECTRICAL_LEARNING.REPOSITORIES.Abstraction
+namespace ElectricalLearning.Repositories.Abstraction
 {
     public  abstract class Entity<T>
     {
