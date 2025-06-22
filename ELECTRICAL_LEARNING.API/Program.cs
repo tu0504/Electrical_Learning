@@ -1,8 +1,12 @@
 
-using ELECTRICAL_LEARNING.REPOSITORIES;
+using ElectricalLearning.Api.Middleware;
+using ElectricalLearning.Repositories;
+using ElectricalLearning.Repositories.Abstraction;
+using ElectricalLearning.Services.Implementations;
+using ElectricalLearning.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace ELECTRICAL_LEARNING.API
+namespace ElectricalLearning.Api
 {
     public class Program
     {
@@ -21,7 +25,14 @@ namespace ELECTRICAL_LEARNING.API
                 options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+            builder.Services.AddScoped<IAccountService, AccountService>();
+
+            builder.Services.AddTransient<GlobalExceptionHandling>();
+
             var app = builder.Build();
+
+            app.UseMiddleware<GlobalExceptionHandling>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

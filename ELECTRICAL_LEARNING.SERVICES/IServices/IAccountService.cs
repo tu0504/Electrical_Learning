@@ -1,12 +1,25 @@
-﻿using System;
+﻿using ElectricalLearning.Repositories.Abstraction;
+using ElectricalLearning.Services.Common;
+using ElectricalLearning.Services.RequestModel;
+using ElectricalLearning.Services.ResponseModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELECTRICAL_LEARNING.SERVICES.IServices
+namespace ElectricalLearning.Services.IServices
 {
-    public class IAccountService
+    public interface IAccountService
     {
+        Task<Result<PagedResult<AccountResponse.GetAccountsModel>>> GetAccounts(string? searchTerm, int pageIndex, int pageSize);
+        Task<Result<AccountResponse.GetAccountsModel>> GetById(int id);
+
+        Task<Result> CreateAccount(AccountRequest.CreateAccountModel acc);
+        Task<Result> UpdateAccount(int id, AccountRequest.UpdateAccountModel acc);
+        Task<Result> DeleteAccount(int id);
+
+
     }
+
 }

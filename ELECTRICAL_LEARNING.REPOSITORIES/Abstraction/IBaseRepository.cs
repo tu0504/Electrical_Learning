@@ -1,11 +1,10 @@
-﻿using ELECTRICAL_LEARNING.REPOSITORIES.Abstraction;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELECTRICAL_LEARNING.REPOSITORIES.Repository
+namespace ElectricalLearning.Repositories.Abstraction
 {
     public interface IBaseRepository<TEntity, TKey> where TEntity : Entity<TKey>
     {

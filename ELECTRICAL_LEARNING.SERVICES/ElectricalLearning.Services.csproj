@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ELECTRICAL_LEARNING.REPOSITORIES\ELECTRICAL_LEARNING.REPOSITORIES.csproj">
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ELECTRICAL_LEARNING.REPOSITORIES\ElectricalLearning.Repositories.csproj">
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

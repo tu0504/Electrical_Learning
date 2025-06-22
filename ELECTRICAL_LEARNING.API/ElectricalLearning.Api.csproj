@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ELECTRICAL_LEARNING.SERVICES\ELECTRICAL_LEARNING.SERVICES.csproj">
+    <ProjectReference Include="..\ELECTRICAL_LEARNING.SERVICES\ElectricalLearning.Services.csproj">
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
