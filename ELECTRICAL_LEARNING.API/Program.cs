@@ -55,6 +55,9 @@ namespace ElectricalLearning.Api
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IFormulaService, FormulaService>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
+            builder.Services.AddScoped<IChapterService, ChapterService>();
 
 
             builder.Services.AddTransient<GlobalExceptionHandling>();
