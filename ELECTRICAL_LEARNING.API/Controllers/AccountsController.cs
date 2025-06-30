@@ -54,10 +54,10 @@ namespace ElectricalLearning.Api.Controllers
             var result = await _accountService.DeleteAccount(id);
             return StatusCode(result.StatusCode, result);
         }
-        
+
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AccountRequest.Login request)
+        public async Task<IActionResult> Login([FromBody] AccountRequest.LoginRequest request)
         {
             var result = await _accountService.Login(request);
             return StatusCode(result.StatusCode, result);

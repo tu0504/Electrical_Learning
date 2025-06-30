@@ -47,7 +47,7 @@ namespace ElectricalLearning.Services.RequestModel
             public string? Role { get; set; }
         }
 
-        public class Login
+        public class LoginRequest
         {
             [Required, EmailAddress]
             public string Email { get; set; }

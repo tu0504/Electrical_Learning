@@ -59,9 +59,20 @@ namespace ElectricalLearning.Api
             builder.Services.AddScoped<IGradeService, GradeService>();
             builder.Services.AddScoped<IChapterService, ChapterService>();
 
+
             builder.Services.AddTransient<GlobalExceptionHandling>();
 
             var app = builder.Build();
+
+            //Auto migration
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Database.IsRelational())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
 
             app.UseMiddleware<GlobalExceptionHandling>();
 
@@ -78,18 +89,9 @@ namespace ElectricalLearning.Api
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
-            try
-            {
-                app.Run();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("loi");
-                Console.WriteLine(ex.ToString());
-            }
+            app.Run();
         }
     }
 }

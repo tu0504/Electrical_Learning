@@ -20,7 +20,7 @@ namespace ElectricalLearning.Services.IServices
         Task<Result> CreateAccount(AccountRequest.CreateAccountModel acc);
         Task<Result> UpdateAccount(int id, AccountRequest.UpdateAccountModel acc);
         Task<Result> DeleteAccount(int id);
-        Task<Result<AccountResponse.Login>> Login(AccountRequest.Login request);
+        Task<Result<AccountResponse.Login>> Login(AccountRequest.LoginRequest request);
 
     }
 

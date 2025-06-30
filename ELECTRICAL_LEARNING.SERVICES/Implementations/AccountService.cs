@@ -111,7 +111,7 @@ namespace ElectricalLearning.Services.Implementations
             return Result<AccountResponse.GetAccountsModel>.Success(result, "Get account successfully!");
         }
 
-        public async Task<Result<AccountResponse.Login>> Login(AccountRequest.Login request)
+        public async Task<Result<AccountResponse.Login>> Login(AccountRequest.LoginRequest request)
         {
             var account = await _accountRepository
                 .GetAll()
