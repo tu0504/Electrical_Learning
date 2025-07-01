@@ -4,7 +4,10 @@ using ElectricalLearning.Repositories;
 using ElectricalLearning.Repositories.Abstraction;
 using ElectricalLearning.Services.Implementations;
 using ElectricalLearning.Services.IServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ElectricalLearning.Api
 {
@@ -25,15 +28,56 @@ namespace ElectricalLearning.Api
                 options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            //JWT Authentication
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    var config = builder.Configuration.GetSection("JwtSettings");
+                    var key = Encoding.UTF8.GetBytes(config["Secret"]);
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = config["Issuer"],
+                ValidAudience = config["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                });
+
+
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             builder.Services.AddScoped<IAccountService, AccountService>();
+
             builder.Services.AddScoped<IExerciseService, ExerciseService>();
             builder.Services.AddScoped<ISubmissionService, SubmissionService>();
+
+            builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IFormulaService, FormulaService>();
+            builder.Services.AddScoped<IGradeService, GradeService>();
+            builder.Services.AddScoped<IChapterService, ChapterService>();
+
 
 
             builder.Services.AddTransient<GlobalExceptionHandling>();
 
             var app = builder.Build();
+
+            //Auto migration
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Database.IsRelational())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
 
             app.UseMiddleware<GlobalExceptionHandling>();
 
@@ -46,8 +90,9 @@ namespace ElectricalLearning.Api
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();///////////
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

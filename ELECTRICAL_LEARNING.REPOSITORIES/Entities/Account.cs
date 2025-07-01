@@ -21,7 +21,7 @@ namespace ElectricalLearning.Repositories.Entities
         [Required, MinLength(8)]
         public string PasswordHash { get; set; }
 
-        [Required, RegularExpression("^(Student|Teacher| Admin)$")]
+        [Required, RegularExpression("^(Student|Teacher|Admin)$")]
         public string Role { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; }
