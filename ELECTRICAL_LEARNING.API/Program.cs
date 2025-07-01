@@ -27,6 +27,9 @@ namespace ElectricalLearning.Api
 
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IExerciseService, ExerciseService>();
+            builder.Services.AddScoped<ISubmissionService, SubmissionService>();
+
 
             builder.Services.AddTransient<GlobalExceptionHandling>();
 

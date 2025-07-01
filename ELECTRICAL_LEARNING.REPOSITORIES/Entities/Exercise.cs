@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ElectricalLearning.Repositories.Entities
 {
-    public class Exercise : Entity<int>
+    public class Exercise : Entity<int>, IAuditable
     {
         [Required]
         public string Title { get; set; }
@@ -19,6 +19,7 @@ namespace ElectricalLearning.Repositories.Entities
         public Lesson Lesson { get; set; }
 
         public ICollection<Submission> Submissions { get; set; }
-
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 }
