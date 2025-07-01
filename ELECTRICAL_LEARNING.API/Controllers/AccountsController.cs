@@ -19,6 +19,7 @@ namespace ElectricalLearning.Api.Controllers
         }
 
         [HttpGet("")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAccounts(string? searchTerm, int pageIndex = 1, int pageSize = 10)
         {
             var result = await _accountService.GetAccounts(searchTerm, pageIndex, pageSize);
@@ -27,6 +28,7 @@ namespace ElectricalLearning.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _accountService.GetById(id);
