@@ -9,8 +9,16 @@ namespace ElectricalLearning.Services.ResponseModel
     public static class GradeResponse
     {
         public record GetGradesModel(
-            int id,
-            int Name
+            int Id,
+            int Name,
+            List<ChapterModel> Chapters
+        );
+
+        public record ChapterModel(
+            int Id,
+            string Name,
+            int GradeId
         );
     }
 }
+

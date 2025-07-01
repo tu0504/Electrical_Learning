@@ -47,36 +47,51 @@ namespace ElectricalLearning.Services.Implementations
 
         public async Task<Result<GradeResponse.GetGradesModel>> GetById(int id)
         {
-            var raw = await _gradeRepository.GetById(id);
-            if (raw == null || raw.IsDeleted) throw new Exception("Không tìm thấy khối");
+            var raw = await _gradeRepository.GetAll()
+                .Include(x => x.Chapters)
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+
+            if (raw == null) throw new Exception("Không tìm thấy khối");
 
             var result = new GradeResponse.GetGradesModel(
                 raw.Id,
-                raw.Name
-                );
+                raw.Name,
+                raw.Chapters.Select(c => new GradeResponse.ChapterModel(
+                    c.Id,
+                    c.Name,
+                    c.GradeId
+                )).ToList()
+            );
+
             return Result<GradeResponse.GetGradesModel>.Success(result, "Lấy khối thành công");
         }
 
         public async Task<Result<PagedResult<GradeResponse.GetGradesModel>>> GetGrades(string? searchTerm, int pageIndex, int pageSize)
         {
-            var raw = _gradeRepository.GetAll();
-            raw = raw.AsNoTracking();
-            raw = raw.Where(x => !x.IsDeleted);
+            var raw = _gradeRepository.GetAll()
+                .Include(x => x.Chapters)
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted);
+
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 var cleanSearchTerm = searchTerm.Trim().ToLower();
-                raw = raw.Where(x => x.Name.ToString().Contains(searchTerm));
+                raw = raw.Where(x => x.Name.ToString().Contains(cleanSearchTerm));
             }
 
             var query = raw.Select(x => new GradeResponse.GetGradesModel(
                 x.Id,
-                x.Name
-                ));
+                x.Name,
+                x.Chapters.Select(c => new GradeResponse.ChapterModel(
+                    c.Id,
+                    c.Name,
+                    c.GradeId
+                )).ToList()
+            ));
 
             var pagedResult = await PagedResult<GradeResponse.GetGradesModel>.CreateAsync(query, pageIndex, pageSize);
 
-            var result = Result<PagedResult<GradeResponse.GetGradesModel>>.Success(pagedResult, "Lấy danh sách khối thành công");
-            return result;
+            return Result<PagedResult<GradeResponse.GetGradesModel>>.Success(pagedResult, "Lấy danh sách khối thành công");
         }
 
         public async Task<Result> UpdateGrade(int id, GradeRequest.UpdateGradeModel request)
