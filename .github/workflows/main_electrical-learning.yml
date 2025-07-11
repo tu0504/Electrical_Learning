@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'electrical-learning'
           slot-name: 'Production'
-          package: .
+          package: ELECTRICAL_LEARNING.API
           
