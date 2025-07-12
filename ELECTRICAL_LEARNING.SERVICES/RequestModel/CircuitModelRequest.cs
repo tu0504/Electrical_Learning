@@ -23,5 +23,11 @@ namespace ElectricalLearning.Services.RequestModel
             public int AccountId { get; set; }
             public int LessonId { get; set; }
         }
+
+        public class CircuitTextRequest
+        {
+            public string Description { get; set; }
+        }
+
     }
 }

@@ -111,6 +111,7 @@ namespace ElectricalLearning.Api
             builder.Services.AddScoped<IChapterService, ChapterService>();
             builder.Services.AddScoped<ILessonService, LessonService>();
 
+            builder.Services.AddHttpClient<IAIService, AIService>();
 
             builder.Services.AddTransient<GlobalExceptionHandling>();
 
